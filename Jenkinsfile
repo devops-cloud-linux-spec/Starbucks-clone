@@ -15,7 +15,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git 'https://github.com/devops-cloud-linux-spec/firebase.git'
+                git 'https://github.com/devops-cloud-linux-spec/Starbucks-clone.git'
             }
         }
         stage("Sonarqube Analysis "){
