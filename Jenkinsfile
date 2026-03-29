@@ -21,8 +21,8 @@ pipeline{
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Starbucks \
-                    -Dsonar.projectKey=Starbucks '''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=starbucks \
+                    -Dsonar.projectKey=starbucks '''
                 }
             }
         }
@@ -53,21 +53,21 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry([credentialsId: 'prashikrk']){   
-                       sh "docker build -t Starbucks ."
-                       sh "docker tag firebase prashikrk/Starbucks:latest "
-                       sh "docker push prashikrk/Starbucks:latest "
+                       sh "docker build -t starbucks ."
+                       sh "docker tag starbucks prashikrk/starbucks:latest "
+                       sh "docker push prashikrk/starbucks:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image prashikrk/Starbucks:latest > trivy.txt" 
+                sh "trivy image prashikrk/starbucks:latest > trivy.txt" 
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name firebase -p 3010:3000 prashikrk/Starbucks:latest'
+                sh 'docker run -d --name starbucks -p 3010:3000 prashikrk/starbucks:latest'
             }
         }
     }
